@@ -2,15 +2,16 @@ import sys
 from PyQt5 import uic
 import sqlite3
 from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidgetItem
+from mainpy import Ui_MainWindow
+from addEditCoffeeForm import Ui_MainWindow_form
 
-
-class MyWidget(QMainWindow):
+class MyWidget(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.initUI()
 
     def initUI(self):
-        uic.loadUi('main.ui', self)
+        self.setupUi(self)
         self.setWindowTitle("Эспрессо!")
         headers = ['ID', 'Название\n сорта', 'Степень\n обжарки',
                    'Молотый/\nв зернах\n1 - молотый\n2 - в зернах',
@@ -26,7 +27,7 @@ class MyWidget(QMainWindow):
         self.zagruzka_data()
 
     def zagruzka_data(self):
-        connection = sqlite3.connect('coffee.sqlite')
+        connection = sqlite3.connect('data/coffee.sqlite')
         cursor = connection.cursor()
         cursor.execute(
             "SELECT ID, name_sort, degree_roasting, ground_beans,\
@@ -47,14 +48,14 @@ class MyWidget(QMainWindow):
         self.add_form.show()
 
 
-class AddWidget(QMainWindow):
+class AddWidget(QMainWindow, Ui_MainWindow_form):
     def __init__(self, parent=None):
         super().__init__(parent)
 
         self.initUI()
 
     def initUI(self):
-        uic.loadUi('addEditCoffeeForm.ui', self)
+        self.setupUi(self)
         self.setWindowTitle("Эспрессо!")
         self.comboBox.currentIndexChanged.connect(self.load_data)
         self.pushButton_clear.clicked.connect(self.clar_wind)
@@ -66,7 +67,7 @@ class AddWidget(QMainWindow):
 
     def load_sort(self):
         self.comboBox.addItem('Выберите сорт')
-        connection = sqlite3.connect('coffee.sqlite')
+        connection = sqlite3.connect('data/coffee.sqlite')
         cursor = connection.cursor()
         cursor.execute(
             "SELECT ID, name_sort, degree_roasting, ground_beans,\
@@ -124,7 +125,7 @@ class AddWidget(QMainWindow):
             price = self.price_value.toPlainText()
             packaging_volume = self.packaging_volumevalue.toPlainText()
 
-            connection = sqlite3.connect('coffee.sqlite')
+            connection = sqlite3.connect('data/coffee.sqlite')
             cursor = connection.cursor()
 
             cursor.execute("""
@@ -191,7 +192,7 @@ class AddWidget(QMainWindow):
                     "background-color: red; color: white")
                 return
 
-            connection = sqlite3.connect('coffee.sqlite')
+            connection = sqlite3.connect('data/coffee.sqlite')
             cursor = connection.cursor()
             cursor.execute("""
                 INSERT INTO coffee
