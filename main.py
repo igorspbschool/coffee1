@@ -2,15 +2,16 @@ import sys
 from PyQt5 import uic
 import sqlite3
 from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidgetItem
+from mainpy import Ui_MainWindow
+from addEditCoffeeForm import Ui_MainWindow_form
 
-
-class MyWidget(QMainWindow):
+class MyWidget(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.initUI()
 
     def initUI(self):
-        uic.loadUi('main.ui', self)
+        self.setupUi(self)
         self.setWindowTitle("Эспрессо!")
         headers = ['ID', 'Название\n сорта', 'Степень\n обжарки',
                    'Молотый/\nв зернах\n1 - молотый\n2 - в зернах',
@@ -47,14 +48,14 @@ class MyWidget(QMainWindow):
         self.add_form.show()
 
 
-class AddWidget(QMainWindow):
+class AddWidget(QMainWindow, Ui_MainWindow_form):
     def __init__(self, parent=None):
         super().__init__(parent)
 
         self.initUI()
 
     def initUI(self):
-        uic.loadUi('addEditCoffeeForm.ui', self)
+        self.setupUi(self)
         self.setWindowTitle("Эспрессо!")
         self.comboBox.currentIndexChanged.connect(self.load_data)
         self.pushButton_clear.clicked.connect(self.clar_wind)
