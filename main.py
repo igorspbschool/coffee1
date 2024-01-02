@@ -27,7 +27,7 @@ class MyWidget(QMainWindow, Ui_MainWindow):
         self.zagruzka_data()
 
     def zagruzka_data(self):
-        connection = sqlite3.connect('coffee.sqlite')
+        connection = sqlite3.connect('data/coffee.sqlite')
         cursor = connection.cursor()
         cursor.execute(
             "SELECT ID, name_sort, degree_roasting, ground_beans,\
@@ -67,7 +67,7 @@ class AddWidget(QMainWindow, Ui_MainWindow_form):
 
     def load_sort(self):
         self.comboBox.addItem('Выберите сорт')
-        connection = sqlite3.connect('coffee.sqlite')
+        connection = sqlite3.connect('data/coffee.sqlite')
         cursor = connection.cursor()
         cursor.execute(
             "SELECT ID, name_sort, degree_roasting, ground_beans,\
@@ -125,7 +125,7 @@ class AddWidget(QMainWindow, Ui_MainWindow_form):
             price = self.price_value.toPlainText()
             packaging_volume = self.packaging_volumevalue.toPlainText()
 
-            connection = sqlite3.connect('coffee.sqlite')
+            connection = sqlite3.connect('data/coffee.sqlite')
             cursor = connection.cursor()
 
             cursor.execute("""
@@ -192,7 +192,7 @@ class AddWidget(QMainWindow, Ui_MainWindow_form):
                     "background-color: red; color: white")
                 return
 
-            connection = sqlite3.connect('coffee.sqlite')
+            connection = sqlite3.connect('data/coffee.sqlite')
             cursor = connection.cursor()
             cursor.execute("""
                 INSERT INTO coffee
